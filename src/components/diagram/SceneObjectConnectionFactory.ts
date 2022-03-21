@@ -9,7 +9,7 @@ export class SceneObjectConnectionFactory {
     private sceneObjects: SceneObject[]
   ) {}
 
-  create(connection: Connection): SceneObjectConnection | null {
+  create(connection: Connection): SceneObjectConnection {
     switch (connection.type) {
       case "line": {
         const from =

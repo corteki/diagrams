@@ -10,7 +10,7 @@ import { SceneObjectFactory } from "./SceneObjectFactory";
 export class Scene implements Lifecycle {
   private target: SceneObject | null = null;
   private sceneObjects: SceneObject[] = [];
-  private sceneObjectConnections: (SceneObjectConnection | null)[] = [];
+  private sceneObjectConnections: SceneObjectConnection[] = [];
 
   constructor(
     nodes: Node[],
@@ -32,7 +32,7 @@ export class Scene implements Lifecycle {
 
   draw() {
     this.sceneObjectConnections.forEach((sceneObjectConnection) =>
-      sceneObjectConnection?.draw()
+      sceneObjectConnection.draw()
     );
   }
 
@@ -67,9 +67,10 @@ export class Scene implements Lifecycle {
 
   clear(): void {
     if (this.context) {
+      const bounds = this.context.canvas.getBoundingClientRect();
       this.context.clearRect(
-        0,
-        0,
+        bounds.top,
+        bounds.left,
         this.context.canvas.width,
         this.context.canvas.height
       );

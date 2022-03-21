@@ -1,7 +1,7 @@
 import { SceneEvent } from "./SceneEvent";
 
 export interface Lifecycle {
-  start(): void;
+  draw(): void;
   update(event: SceneEvent): void;
   clear(): void;
 }

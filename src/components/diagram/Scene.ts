@@ -1,21 +1,39 @@
+import { Connection } from "./Connection";
 import { Lifecycle } from "./Lifecycle";
 import { Node } from "./Node";
 import { SceneEvent } from "./SceneEvent";
 import { SceneObject } from "./SceneObject";
+import { SceneObjectConnection } from "./SceneObjectConnection";
+import { SceneObjectConnectionFactory } from "./SceneObjectConnectionFactory";
 import { SceneObjectFactory } from "./SceneObjectFactory";
 
 export class Scene implements Lifecycle {
   private target: SceneObject | null = null;
   private sceneObjects: SceneObject[] = [];
-  constructor(nodes: Node[], private context: CanvasRenderingContext2D | null) {
+  private sceneObjectConnections: (SceneObjectConnection | null)[] = [];
+
+  constructor(
+    nodes: Node[],
+    connections: Connection[],
+    private context: CanvasRenderingContext2D | null
+  ) {
     if (this.context) {
-      const factory = new SceneObjectFactory(this.context);
-      this.sceneObjects = nodes.map((node) => factory.createSceneObject(node));
+      const sceneObjectFactory = new SceneObjectFactory(this.context);
+      this.sceneObjects = nodes.map((node) => sceneObjectFactory.create(node));
+      const sceneObjectConnectionFactory = new SceneObjectConnectionFactory(
+        this.context,
+        this.sceneObjects
+      );
+      this.sceneObjectConnections = connections.map((connection) =>
+        sceneObjectConnectionFactory.create(connection)
+      );
     }
   }
 
-  start(): void {
-    this.sceneObjects.forEach((sceneObject) => sceneObject.draw());
+  draw() {
+    this.sceneObjectConnections.forEach((sceneObjectConnection) =>
+      sceneObjectConnection?.draw()
+    );
   }
 
   update(event: SceneEvent): void {

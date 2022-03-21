@@ -6,10 +6,11 @@ import { SceneObject } from "./SceneObject";
 
 export class Box implements SceneObject {
   constructor(
-    private context: CanvasRenderingContext2D,
-    private color: Color,
+    public id: string,
     public placement: BoxPlacement,
-    public collider: BoxCollider
+    public collider: BoxCollider,
+    private context: CanvasRenderingContext2D,
+    private color: Color
   ) {}
 
   draw(): void {

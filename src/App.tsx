@@ -1,4 +1,5 @@
 import { Diagram } from "./components";
+import { Connection } from "./components/diagram/Connection";
 import { Node } from "./components/diagram/Node";
 
 const NODES: Node[] = [
@@ -32,13 +33,36 @@ const NODES: Node[] = [
   },
 ];
 
+const CONNECTIONS: Connection[] = [
+  {
+    id: "l-1",
+    type: "line",
+    from: "b-3",
+    to: "b-2",
+  },
+  {
+    id: "l-2",
+    type: "line",
+    from: "b-1",
+    to: "b-3",
+  },
+  {
+    id: "l-3",
+    type: "line",
+    from: "b-1",
+    to: "b-2",
+  },
+];
+
 const DIAGRAM_DIMENSIONS = {
   width: 1000,
   height: 500,
 };
 
 function App() {
-  return <Diagram nodes={NODES} {...DIAGRAM_DIMENSIONS} />;
+  return (
+    <Diagram nodes={NODES} connections={CONNECTIONS} {...DIAGRAM_DIMENSIONS} />
+  );
 }
 
 export default App;
